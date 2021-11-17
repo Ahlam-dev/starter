@@ -3,6 +3,7 @@ package com.example.android.politicalpreparedness.election
 import android.app.Application
 import android.content.ContentValues.TAG
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.android.politicalpreparedness.ElectionRepository
 import com.example.android.politicalpreparedness.database.ElectionDao
@@ -29,9 +30,9 @@ class VoterInfoViewModel(
 
     //TODO: Add var and methods to populate voter info
     fun getVoterInfo() {
+
         var state = election.division?.state
         var country = election.division?.country
-
        val address= "$state,$country";
         val Id = election.id
         viewModelScope.launch {
@@ -53,22 +54,25 @@ class VoterInfoViewModel(
     private val electionDatabase = getInstance(application)
     private val electionRepository = ElectionRepository(electionDatabase)
 
-    private val _isFollowed = MutableLiveData(false)
+    private val _isFollowed = MutableLiveData<Boolean>()
     val isFollowed: LiveData<Boolean>
         get() = _isFollowed
 
     fun onFollowButtonClicked() {
 
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
-        if (_isFollowed.value == true) {
+
+                if (_isFollowed.value!!) {
             electionRepository.unfollow_Election(election)
-            _isFollowed.value=false
+                    Toast.makeText(getApplication(),_isFollowed.value.toString(),Toast.LENGTH_SHORT).show()
+
         } else {
                 electionRepository.follow_Election(election)
-            _isFollowed.value=true;
-        }
-            }
+                    Toast.makeText(getApplication(),_isFollowed.value.toString(),Toast.LENGTH_SHORT).show()
+
+                }
+            _isFollowed.postValue(electionRepository.isSaved(election));
+            Toast.makeText(getApplication(),_isFollowed.value.toString(),Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -79,12 +83,14 @@ class VoterInfoViewModel(
      */
 init {
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
-
                 getVoterInfo()
-                voteraddress= voterInfo.value?.state!![0].electionAdministrationBody.correspondenceAddress?.toFormattedString().toString()
 
-            }
+if(voterInfo.value!=null) {
+    voteraddress = voterInfo.value?.state !![0].electionAdministrationBody.correspondenceAddress?.toFormattedString().toString()
+}else voteraddress="Address is not Available"
+            _isFollowed.value = electionRepository.isSaved(election)
+            Toast.makeText(getApplication(),_isFollowed.value.toString(),Toast.LENGTH_SHORT).show()
+
         }
 
 

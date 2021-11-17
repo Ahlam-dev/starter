@@ -16,4 +16,16 @@
     <string name="noBallotText"><u>No ballot Available</u></string>
     <string name="votingLocationText"><u>Voting Locations</u></string>
     <string name="noVotingLocation"><u>No Location Available</u></string>
+    <string name="correspondenceAddress">Correspondence Address</string>
+
+    <string name="search_title">Representative Search</string>
+    <string name="line_1">Address Line 1</string>
+    <string name="line_2">Address Line 2</string>
+    <string name="city">City</string>
+    <string name="State">State</string>
+    <string name="Zip">Zip</string>
+    <string name="search_button">FIND MY REPRESENTATIVES</string>
+    <string name="use_location">USE MY LOCATION</string>
+    <string name="MY_representative">My Representative</string>
+
 </resources>

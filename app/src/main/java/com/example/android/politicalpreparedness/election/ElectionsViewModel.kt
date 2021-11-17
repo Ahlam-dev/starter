@@ -18,18 +18,16 @@ class ElectionsViewModel(
     private val electionDatabase = getInstance(application)
     private val electionsRepository = ElectionRepository(electionDatabase)
 
-    //Done: Create live data val for upcoming elections
     private val _upcomingElections = MutableLiveData<List<Election>>()
     val upcomingElections: LiveData<List<Election>>
         get() =_upcomingElections
 
-    //Done: Create live data val for saved elections
-    private val _followedElections = MutableLiveData<List<Election>>()
     val followedElections: LiveData<List<Election>>
-        get() = _followedElections
+        get() = electionsRepository.followedElections
 
-    private val _navigateToSelectedElection = MutableLiveData<Election>()
-    val navigateToSelectedElection: LiveData<Election>
+
+    private val _navigateToSelectedElection = MutableLiveData<Election?>()
+    val navigateToSelectedElection: LiveData<Election?>
         get() = _navigateToSelectedElection
 
 
@@ -38,7 +36,7 @@ class ElectionsViewModel(
 init {
         viewModelScope.launch {
             displayUpcomingElections()
-            _followedElections.value= electionsRepository.followedElections.value
+
         }
 
     }

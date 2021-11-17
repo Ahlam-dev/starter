@@ -24,11 +24,12 @@ class ElectionRepository (private val database: ElectionDatabase) {
         }
     }
 
-    suspend fun isSaved(election: Election): Boolean{
+      suspend fun isSaved(election: Election): Boolean{
         var isSavedElection = false
         withContext(Dispatchers.IO){
-            val result = database.electionDao.getElectionById(election.id)
-            isSavedElection = result != null
+            val result = database.electionDao.isElectionSaved(election.id)
+            print(result.toString())
+            isSavedElection = result > 0
         }
         return isSavedElection
     }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
@@ -36,7 +37,6 @@ class VoterInfoFragment : Fragment() {
 
 
         val election = VoterInfoFragmentArgs.fromBundle(arguments!!).argElection
-
         val activity = requireNotNull(this.activity)
      val   viewModel = ViewModelProvider(this, VoterInfoViewModelFactory(activity.application, election)).get(VoterInfoViewModel::class.java)
 
@@ -58,9 +58,9 @@ class VoterInfoFragment : Fragment() {
         viewModel.isFollowed.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) {
-                    binding.followButton.text = getString(R.string.follow_election)
-                } else {
                     binding.followButton.text = getString(R.string.unfollow_election)
+                } else {
+                    binding.followButton.text = getString(R.string.follow_election)
                 }
             }
         })

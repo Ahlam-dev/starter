@@ -47,7 +47,6 @@
             app:layout_constraintHorizontal_bias="0.19"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/upcomingElections"
-            tools:itemCount="5"
             tools:listitem="@layout/fragment_election_item">
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -80,7 +79,6 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
-tools:itemCount="5"
             app:layout_constraintBottom_toBottomOf="parent"
 
             app:layout_constraintStart_toStartOf="parent"
