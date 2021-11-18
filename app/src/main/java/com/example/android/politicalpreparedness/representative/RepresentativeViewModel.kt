@@ -38,7 +38,6 @@ class RepresentativeViewModel: ViewModel() {
 
             } catch (e: Exception) {
                 Log.i("Error Message", e.stackTrace.toString())
-print("hi")
             }
 
         }
