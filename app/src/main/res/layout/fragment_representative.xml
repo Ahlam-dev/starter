@@ -78,7 +78,8 @@
             android:layout_height="0dp"
             android:autofillHints=""
             android:hint="@string/State"
-
+            stateValue="@{viewModel.address.state}"
+            android:entries="@array/states"
             android:inputType="textPostalAddress"
             app:layout_constraintStart_toEndOf="@id/city"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,6 +94,7 @@
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:hint="@string/Zip"
+            android:text="@{viewModel.address.zip}"
 
             android:inputType="number"
             android:maxLength="5"
@@ -142,7 +144,7 @@ android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/representative_title"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            motion:listitem="@layout/representativelist_item" />
+        motion:listitem="@layout/representativelist_item" />
 
         <!-- TODO: Add visual styling and content -->
         <TextView

@@ -20,6 +20,7 @@ import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
+import com.example.android.politicalpreparedness.representative.adapter.setNewValue
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import java.util.Locale
@@ -36,11 +37,11 @@ class DetailFragment : Fragment() {
     }
 
     //TODO: Declare ViewModel
-   val viewModel = ViewModelProvider(this).get(RepresentativeViewModel::class.java)
-
+    lateinit var viewModel:RepresentativeViewModel;
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        viewModel = ViewModelProvider(this).get(RepresentativeViewModel::class.java)
 
         //TODO: Establish bindings
         binding = FragmentRepresentativeBinding.inflate(inflater)
@@ -61,13 +62,21 @@ class DetailFragment : Fragment() {
 
         //TODO: Establish button listeners for field and location search
         binding.buttonLocation.setOnClickListener {
-            checkLocationPermissions()
-            hideKeyboard()
+            getLocation()
         }
 
+
+
+        viewModel.address.observe(viewLifecycleOwner,  androidx.lifecycle.Observer{
+            it?.let {
+                binding.state.setNewValue(it.state)
+            }
+        })
         binding.buttonSearch.setOnClickListener {
+            viewModel.getRepresentatives()
+            Toast.makeText(context,viewModel.address.value.toString(),Toast.LENGTH_SHORT).show()
+
             hideKeyboard()
-            viewModel.getRepresentatives(viewModel.address.value.toString())
 
         }
 return  binding.root;
@@ -112,7 +121,6 @@ return  binding.root;
             LocationServices.getFusedLocationProviderClient(requireContext())
                     .lastLocation.addOnSuccessListener {
                         viewModel.getAddressFromGeoLocation(geoCodeLocation(it))
-                        viewModel.getRepresentatives(viewModel.address.value.toString())
                     }
 
         } else {

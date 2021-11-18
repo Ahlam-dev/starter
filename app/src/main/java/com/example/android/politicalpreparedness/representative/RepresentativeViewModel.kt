@@ -1,6 +1,7 @@
 package com.example.android.politicalpreparedness.representative
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,10 +24,13 @@ class RepresentativeViewModel: ViewModel() {
     //TODO: Create function to fetch representatives from API from a provided address
 
 
-    public fun getRepresentatives(address:String) {
+    public fun getRepresentatives() {
         viewModelScope.launch {
+
             try {
-                        val (offices, officials)= CivicsApi.retrofitService.getRepresentatives(address)
+                val address = _address.value!!.toString()
+
+                val (offices, officials)= CivicsApi.retrofitService.getRepresentatives(address)
                 _representativeList.value = offices.flatMap { office ->
                             office.getRepresentatives(officials)
                         }
@@ -34,9 +38,11 @@ class RepresentativeViewModel: ViewModel() {
 
             } catch (e: Exception) {
                 Log.i("Error Message", e.stackTrace.toString())
+print("hi")
             }
 
         }
+
     }
     /**
      *  The following code will prove helpful in constructing a representative from the API. This code combines the two nodes of the RepresentativeResponse into a single official :
@@ -52,6 +58,7 @@ class RepresentativeViewModel: ViewModel() {
     //TODO: Create function get address from geo location
     fun getAddressFromGeoLocation(address: Address) {
         _address.value = address
+
     }
     //TODO: Create function to get address from individual fields
     init {
