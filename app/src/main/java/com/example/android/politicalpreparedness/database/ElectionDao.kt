@@ -16,7 +16,6 @@ interface ElectionDao {
 
 
 
-
     //TODO: Add select all election query
     @Query("SELECT * FROM election_table")
      fun getElectionList(): LiveData<List<Election>>
@@ -28,6 +27,7 @@ interface ElectionDao {
 
     @Query("SELECT * FROM election_table WHERE id = :electionId")
      fun isElectionSaved(electionId: Int) : Int
+
     //TODO: Add delete query
     @Query("DELETE FROM election_table WHERE id = :electionId")
     suspend fun deleteElection(electionId: Int)

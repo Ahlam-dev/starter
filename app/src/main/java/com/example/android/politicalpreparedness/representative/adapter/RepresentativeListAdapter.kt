@@ -52,7 +52,9 @@ class RepresentativeViewHolder(val binding: RepresentativelistItemBinding): Recy
                 RepresentativelistItemBinding.inflate(
                         LayoutInflater.from(
                                 parent.context
-                        )
+                        ),
+                                parent, false
+
                 )
         )
     }}

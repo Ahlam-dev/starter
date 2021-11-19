@@ -16,7 +16,6 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:nestedScrollingEnabled="false"
-
         app:layoutDescription="@xml/fragment_representative_scene">
 
 
@@ -52,7 +51,6 @@
             android:layout_height="0dp"
             android:hint="@string/line_2"
             android:text="@={viewModel.addLine2}"
-
             android:autofillHints=""
             android:inputType="textPostalAddress"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +65,6 @@
             android:autofillHints=""
             android:hint="@string/city"
             android:text="@={viewModel.city}"
-
             android:inputType="textPostalAddress"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/state"
@@ -99,7 +96,6 @@
             android:autofillHints=""
             android:hint="@string/Zip"
             android:text="@={viewModel.zip}"
-
             android:inputType="number"
             android:maxLength="5"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,6 +110,8 @@
             android:backgroundTint="#3A447E"
             android:textColor="@color/white"
             android:text="@string/search_button"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintTop_toBottomOf="@id/zip" />
 
         <!-- TODO: Add visual styling and content -->
@@ -124,6 +122,8 @@
             android:backgroundTint="#3A447E"
             android:textColor="@color/white"
             android:text="@string/use_location"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintTop_toBottomOf="@id/button_search" />
 
 
@@ -133,11 +133,11 @@
                 android:id="@+id/representative_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
                 android:text="@string/MY_representative"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/button_location" />
 
@@ -146,12 +146,13 @@
             android:id="@+id/representatives_recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            motion:listitem="@layout/representativelist_item"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/representative_title"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        motion:listitem="@layout/representativelist_item" />
+    />
 
         <!-- TODO: Add visual styling and content -->
         <TextView

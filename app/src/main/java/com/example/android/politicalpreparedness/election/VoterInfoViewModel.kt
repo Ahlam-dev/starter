@@ -18,14 +18,14 @@ import kotlinx.coroutines.withContext
 import java.util.*
 
 class VoterInfoViewModel(
-         application: Application,val election: Election) : AndroidViewModel(application){
+        application: Application, val election: Election) : AndroidViewModel(application) {
 
     //TODO: Add live data to hold voter info
-   private val _voterInfo = MutableLiveData<VoterInfoResponse>()
+    private val _voterInfo = MutableLiveData<VoterInfoResponse>()
     val voterInfo: LiveData<VoterInfoResponse>
         get() = _voterInfo
 
-    var voteraddress= ""
+    var voteraddress = ""
 
 
     //TODO: Add var and methods to populate voter info
@@ -33,7 +33,7 @@ class VoterInfoViewModel(
 
         var state = election.division?.state
         var country = election.division?.country
-       val address= "$state,$country";
+        val address = "$state,$country";
         val Id = election.id
         viewModelScope.launch {
             try {
@@ -62,17 +62,14 @@ class VoterInfoViewModel(
 
         viewModelScope.launch {
 
-                if (_isFollowed.value!!) {
-            electionRepository.unfollow_Election(election)
-                    Toast.makeText(getApplication(),_isFollowed.value.toString(),Toast.LENGTH_SHORT).show()
+            if (_isFollowed.value!!) {
+                electionRepository.unfollow_Election(election)
 
-        } else {
+            } else {
                 electionRepository.follow_Election(election)
-                    Toast.makeText(getApplication(),_isFollowed.value.toString(),Toast.LENGTH_SHORT).show()
 
-                }
+            }
             _isFollowed.postValue(electionRepository.isSaved(election));
-            Toast.makeText(getApplication(),_isFollowed.value.toString(),Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -81,18 +78,17 @@ class VoterInfoViewModel(
     /**
      * Hint: The saved state can be accomplished in multiple ways. It is directly related to how elections are saved/removed from the database.
      */
-init {
+    init {
         viewModelScope.launch {
-                getVoterInfo()
+            getVoterInfo()
 
-if(voterInfo.value!=null) {
-    voteraddress = voterInfo.value?.state !![0].electionAdministrationBody.correspondenceAddress?.toFormattedString().toString()
-}else voteraddress="Address is not Available"
+            if (voterInfo.value != null) {
+                voteraddress = voterInfo.value?.state!![0].electionAdministrationBody.correspondenceAddress?.toFormattedString().toString()
+            } else voteraddress = "Address is not Available"
             _isFollowed.value = electionRepository.isSaved(election)
-            Toast.makeText(getApplication(),_isFollowed.value.toString(),Toast.LENGTH_SHORT).show()
 
         }
 
 
-}
+    }
 }

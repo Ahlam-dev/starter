@@ -13,22 +13,20 @@ import com.example.android.politicalpreparedness.representative.model.Representa
 import kotlinx.coroutines.launch
 import kotlin.coroutines.coroutineContext
 
-class RepresentativeViewModel: ViewModel() {
+class RepresentativeViewModel : ViewModel() {
 
     //TODO: Establish live data for representatives and address
     private val _representativeList = MutableLiveData<List<Representative>>()
     val representativesList: LiveData<List<Representative>>
         get() = _representativeList
 
-   /* private val _address = MutableLiveData<Address>()
-    val address: LiveData<Address>
-        get() = _address*/
-   private val address = MutableLiveData<Address?>()
+    private val address = MutableLiveData<Address?>()
     val addLine1 = MutableLiveData<String>()
     val addLine2 = MutableLiveData<String>()
     val city = MutableLiveData<String>()
     val state = MutableLiveData<String>()
     val zip = MutableLiveData<String>()
+
     //TODO: Create function to fetch representatives from API from a provided address
 
 
@@ -36,21 +34,19 @@ class RepresentativeViewModel: ViewModel() {
         viewModelScope.launch {
 
 
-                val response = CivicsApi.retrofitService.getRepresentatives(address.toFormattedString())
-                val offices = response.offices
-                val officials = response.officials
+            val response = CivicsApi.retrofitService.getRepresentatives(address.toFormattedString())
+            val offices = response.offices
+            val officials = response.officials
 
-                val representativesList = mutableListOf<Representative>()
+            val representativesList = mutableListOf<Representative>()
 
-                offices.forEach { office ->
-                    representativesList.addAll(office.getRepresentatives(officials))
-                }
-                _representativeList.value = representativesList
+            offices.forEach { office ->
+                representativesList.addAll(office.getRepresentatives(officials))
+            }
+            _representativeList.value = representativesList
 
         }
     }
-
-
 
 
     /**
@@ -65,28 +61,20 @@ class RepresentativeViewModel: ViewModel() {
      */
 
     //TODO: Create function get address from geo location
-   // fun getAddressFromGeoLocation(address: Address) {
-      //  _address.value = address
-
-   // }
-
-
 
     fun getAddressFromGeoLocation(address: Address) {
         this.address.value = address
         addLine1.value = address.line1
-        address.line2.let { addLine2.value = it }
+        addLine2.value=address.line2
         city.value = address.city
         state.value = address.state
         zip.value = address.zip
-        getRepresentatives(address)
     }
 
-    //Created function to get address from individual fields
-    fun fetchRepresentatives() {
-        val address = Address(addLine1.value!!, addLine2.value,  city.value!!, state.value!! ,  zip.value!!)
+    //TODO: Create function to get address from individual fields
+    fun getRepresentatives_from_fields() {
+        val address = Address(addLine1.value!!, addLine2.value, city.value!!, state.value!!, zip.value!!)
         getRepresentatives(address)
     }
-    //TODO: Create function to get address from individual fields
 
 }

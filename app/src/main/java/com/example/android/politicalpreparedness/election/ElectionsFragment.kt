@@ -40,13 +40,11 @@ try{
 
 
 
-
         binding.upcomingRecycler.adapter = ElectionListAdapter(ElectionListener {
             viewModel.onElectionClicked(it)
 
         })
         viewModel.upcomingElections.observe(viewLifecycleOwner, Observer {
-           // binding.upcomingRecycler.submitList(it)
             it?.let {
                 (binding.upcomingRecycler.adapter as ElectionListAdapter).submitList(it)
             }

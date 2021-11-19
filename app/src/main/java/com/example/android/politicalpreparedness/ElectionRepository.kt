@@ -14,7 +14,6 @@ class ElectionRepository (private val database: ElectionDatabase) {
 
     suspend fun follow_Election(election: Election){
         withContext(Dispatchers.IO){
-          //  val follow = FollowElection(election.id)
             database.electionDao.insertFollowedElection(election)
         }
     }

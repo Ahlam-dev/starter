@@ -19,37 +19,25 @@ class VoterInfoFragment : Fragment() {
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        //TODO: Add ViewModel values and create ViewModel
-
-        //TODO: Add binding values
-
-        //TODO: Populate voter info -- hide views without provided data.
-        /**
-        Hint: You will need to ensure proper data is provided from previous fragment.
-        */
-
-
-        //TODO: Handle loading of URLs
-
-        //TODO: Handle save button UI state
-        //TODO: cont'd Handle save button clicks
-
-
 
         val election = VoterInfoFragmentArgs.fromBundle(arguments!!).argElection
         val activity = requireNotNull(this.activity)
-     val   viewModel = ViewModelProvider(this, VoterInfoViewModelFactory(activity.application, election)).get(VoterInfoViewModel::class.java)
+        val viewModel = ViewModelProvider(this, VoterInfoViewModelFactory(activity.application, election)).get(VoterInfoViewModel::class.java)
 
         val binding = FragmentVoterInfoBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        binding.followButton.setOnClickListener {
+            viewModel.onFollowButtonClicked();
 
+        }
         viewModel.url.observe(viewLifecycleOwner, Observer {
             it?.let {
 
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
-                startActivity(intent)            }
+                startActivity(intent)
+            }
         })
 
 
@@ -71,11 +59,6 @@ class VoterInfoFragment : Fragment() {
 
         return binding.root
     }
-
-
-
-
-
 
 
 }

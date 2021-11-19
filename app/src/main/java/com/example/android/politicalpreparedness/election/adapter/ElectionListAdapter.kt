@@ -57,9 +57,3 @@ object ElectionDiffCallback : DiffUtil.ItemCallback<Election>() {
         return oldItem.id == newItem.id
     }
 }
-
-//TODO: Create ElectionViewHolder
-
-//TODO: Create ElectionDiffCallback
-
-//TODO: Create ElectionListener

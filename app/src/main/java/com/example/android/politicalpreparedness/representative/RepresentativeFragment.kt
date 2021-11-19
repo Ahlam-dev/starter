@@ -38,7 +38,7 @@ class DetailFragment : Fragment() {
     }
 
     //TODO: Declare ViewModel
-    lateinit var viewModel:RepresentativeViewModel;
+    lateinit var viewModel: RepresentativeViewModel;
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -54,8 +54,7 @@ class DetailFragment : Fragment() {
         binding.representativesRecycler.adapter = representative_Adapter
 
         //TODO: Populate Representative adapter
-        viewModel.representativesList.
-        observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        viewModel.representativesList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             it?.let {
                 representative_Adapter.submitList(it)
             }
@@ -79,22 +78,22 @@ class DetailFragment : Fragment() {
             ) {
                 (parent?.getItemAtPosition(position) as String?)?.let {
                     viewModel.state.value = it
+                }
             }
-        }}
+        }
 
 
         binding.buttonSearch.setOnClickListener {
-            viewModel.fetchRepresentatives()
-          //  Toast.makeText(context,viewModel.representativesList.value?.size.toString(),Toast.LENGTH_SHORT).show()
-
+            viewModel.getRepresentatives_from_fields()
+            hideKeyboard()
         }
-return  binding.root;
+        return binding.root;
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_LOCATION_PERMISSION) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED&&grantResults.isNotEmpty()  )
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.isNotEmpty())
                 getLocation()
         } else {
             Toast.makeText(requireContext(), "Please enable access to your location", Toast.LENGTH_SHORT).show()
@@ -114,7 +113,7 @@ return  binding.root;
         }
     }
 
-    private fun isPermissionGranted() : Boolean {
+    private fun isPermissionGranted(): Boolean {
         //TODO: Check if permission is already granted and return (true = granted, false = denied/other)
         return ContextCompat.checkSelfPermission(requireContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
@@ -122,9 +121,6 @@ return  binding.root;
 
     @SuppressLint("MissingPermission")
     private fun getLocation() {
-        //TODO: Get location from LocationServices
-        //TODO: The geoCodeLocation method is a helper function to change the lat/long location to a human readable street address
-
 
         if (checkLocationPermissions()) {
             LocationServices.getFusedLocationProviderClient(requireContext())
@@ -134,7 +130,8 @@ return  binding.root;
 
         } else {
             requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_PERMISSION)
-        } }
+        }
+    }
 
     private fun geoCodeLocation(location: Location): Address {
         val geocoder = Geocoder(context, Locale.getDefault())
