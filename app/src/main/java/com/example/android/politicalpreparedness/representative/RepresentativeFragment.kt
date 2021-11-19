@@ -9,6 +9,7 @@ import android.location.Location
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -66,17 +67,25 @@ class DetailFragment : Fragment() {
         }
 
 
-
-        viewModel.address.observe(viewLifecycleOwner,  androidx.lifecycle.Observer{
-            it?.let {
-                binding.state.setNewValue(it.state)
+        binding.state.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
             }
-        })
-        binding.buttonSearch.setOnClickListener {
-            viewModel.getRepresentatives()
-            Toast.makeText(context,viewModel.address.value.toString(),Toast.LENGTH_SHORT).show()
 
-            hideKeyboard()
+            override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+            ) {
+                (parent?.getItemAtPosition(position) as String?)?.let {
+                    viewModel.state.value = it
+            }
+        }}
+
+
+        binding.buttonSearch.setOnClickListener {
+            viewModel.fetchRepresentatives()
+          //  Toast.makeText(context,viewModel.representativesList.value?.size.toString(),Toast.LENGTH_SHORT).show()
 
         }
 return  binding.root;

@@ -12,9 +12,13 @@
 
     <!-- TODO: Add motion scene to hide form on vertical scroll. -->
     <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motion_layout"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:nestedScrollingEnabled="false"
+
         app:layoutDescription="@xml/fragment_representative_scene">
+
 
         <!-- TODO: Add visual styling and content -->
         <TextView
@@ -35,7 +39,7 @@
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:hint="@string/line_1"
-            android:text="@{viewModel.address.line1}"
+            android:text="@={viewModel.addLine1}"
             android:inputType="textPostalAddress"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_title" />
@@ -47,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:hint="@string/line_2"
-            android:text="@{viewModel.address.line2}"
+            android:text="@={viewModel.addLine2}"
 
             android:autofillHints=""
             android:inputType="textPostalAddress"
@@ -62,7 +66,7 @@
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:hint="@string/city"
-            android:text="@{viewModel.address.city}"
+            android:text="@={viewModel.city}"
 
             android:inputType="textPostalAddress"
             app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +82,7 @@
             android:layout_height="0dp"
             android:autofillHints=""
             android:hint="@string/State"
-            stateValue="@{viewModel.address.state}"
+            app:stateValue="@{viewModel.state}"
             android:entries="@array/states"
             android:inputType="textPostalAddress"
             app:layout_constraintStart_toEndOf="@id/city"
@@ -94,7 +98,7 @@
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:hint="@string/Zip"
-            android:text="@{viewModel.address.zip}"
+            android:text="@={viewModel.zip}"
 
             android:inputType="number"
             android:maxLength="5"
@@ -122,17 +126,20 @@
             android:text="@string/use_location"
             app:layout_constraintTop_toBottomOf="@id/button_search" />
 
+
+
         <!-- TODO: Add visual styling and content -->
-        <TextView
-            android:id="@+id/representative_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:text="@string/MY_representative"
-android:layout_marginTop="24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/button_location" />
+            <TextView
+                android:id="@+id/representative_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/MY_representative"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_location" />
 
         <!-- TODO: Add Representatives RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
